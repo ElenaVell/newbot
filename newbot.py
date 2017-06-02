@@ -17,10 +17,10 @@ def start_bot(bot,update):
 
 def planet_bot(bot,update,args=[]):
 	logging.info('Planet: args:{}'.format(args))
-        if len(args) > 0 :
-            user_planet = args[0]
-        else:
-            user_planet = ''
+	if len(args) > 0 :
+		user_planet = args[0]
+	else:
+		user_planet = ''
 
 	text='Input name of a planet hear: '
 	update.message.reply_text(text)
