@@ -5,8 +5,7 @@ import datetime
 import ephem
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
-                    level=logging.INFO,
-                    filename='bot.log'
+                    level=logging.INFO, filename='bot.log'
                     )
 
 def start_bot(bot,update):
