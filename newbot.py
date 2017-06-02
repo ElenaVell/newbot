@@ -5,8 +5,7 @@ import datetime
 import ephem
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s',
-                    level=logging.INFO,
-                    filename='bot.log'
+                    level=logging.INFO, filename='bot.log'
                     )
 
 def start_bot(bot,update):
@@ -16,7 +15,13 @@ def start_bot(bot,update):
 	logging.info('User{} press /start'.format(update.message.chat.first_name))
 	update.message.reply_text(mytext)
 
-def planet_bot(bot,update):
+def planet_bot(bot,update,args=[]):
+	logging.info('Planet: args:{}'.format(args))
+	if len(args) > 0 :
+		user_planet = args[0]
+	else:
+		user_planet = ''
+
 	text='Input name of a planet hear: '
 	update.message.reply_text(text)
 	
@@ -25,9 +30,7 @@ def planet_bot(bot,update):
 	'mercury': ephem.Mercury(date.strftime('%Y/%m/%d')),'jupiter': ephem.Jupiter(date.strftime('%Y/%m/%d')),
 	'saturn': ephem.Saturn(date.strftime('%Y/%m/%d')),'uranus': ephem.Uranus(date.strftime('%Y/%m/%d')),
 	'neptune': ephem.Neptune(date.strftime('%Y/%m/%d'))}
-	
-	user_planet=update.message.text ?????
-	
+		
 	if user_planet in planet:
 		update.message.reply_text(ephem.constellation(planet[user_planet]))
 
@@ -44,9 +47,8 @@ def main():
     updtr = Updater(settings.TELEGRAM_API_KEY)
 
     updtr.dispatcher.add_handler(CommandHandler('start',start_bot))
-    updtr.dispatcher.add_handler(CommandHandler('planet',planet_bot))
+    updtr.dispatcher.add_handler(CommandHandler('planet',planet_bot, pass_args=True))
     updtr.dispatcher.add_handler(MessageHandler(Filters.text, chat))
-    updtr.dispatcher.add_handler(MessageHandler(Filters.text, planet_bot))
 
     updtr.start_polling()
     updtr.idle()
