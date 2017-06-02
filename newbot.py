@@ -17,6 +17,12 @@ def start_bot(bot,update):
 	update.message.reply_text(mytext)
 
 def planet_bot(bot,update,args=[]):
+	logging.info('Planet: args:{}'.format(args))
+        if len(args) > 0 :
+            user_planet = args[0]
+        else:
+            user_planet = ''
+
 	text='Input name of a planet hear: '
 	update.message.reply_text(text)
 	
@@ -25,12 +31,7 @@ def planet_bot(bot,update,args=[]):
 	'mercury': ephem.Mercury(date.strftime('%Y/%m/%d')),'jupiter': ephem.Jupiter(date.strftime('%Y/%m/%d')),
 	'saturn': ephem.Saturn(date.strftime('%Y/%m/%d')),'uranus': ephem.Uranus(date.strftime('%Y/%m/%d')),
 	'neptune': ephem.Neptune(date.strftime('%Y/%m/%d'))}
-	
-        if len(args) > 0 :
-            user_planet = args[0]
-        else:
-            user_planet = '-empty-'
-	
+		
 	if user_planet in planet:
 		update.message.reply_text(ephem.constellation(planet[user_planet]))
 
