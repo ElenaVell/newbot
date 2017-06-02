@@ -21,9 +21,6 @@ def planet_bot(bot,update,args=[]):
 		user_planet = args[0]
 	else:
 		user_planet = ''
-
-	text='Input name of a planet hear: '
-	update.message.reply_text(text)
 	
 	date = datetime.datetime.now()
 	planet={'mars': ephem.Mars(date.strftime('%Y/%m/%d')),'venus': ephem.Venus(date.strftime('%Y/%m/%d')),
