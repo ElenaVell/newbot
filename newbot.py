@@ -15,7 +15,9 @@ def start_bot(bot,update):
 	logging.info('User{} press /start'.format(update.message.chat.first_name))
 	update.message.reply_text(mytext)
 
-def planet_bot(bot,update,args=[]):
+def planet_bot(bot,update,args=None):
+	if args is None:
+		args = []
 	logging.info('Planet: args:{}'.format(args))
 	if len(args) > 0 :
 		user_planet = args[0]
@@ -34,6 +36,43 @@ def planet_bot(bot,update,args=[]):
 	else:
 		update.message.reply_text('I dont know such a planet')
 
+def wordcount_bot(bot,update,args=None):
+	logging.info('wordcount: args:{}'.format(args))
+	if args is None:
+		args = []
+	if len(args) > 0:
+		args=str(args)
+		args=args.split()
+		update.message.reply_text(len(args))
+
+	else:
+		update.message.reply_text('No words input')
+
+def culculator_bot(bot,update, args=None):
+	logging.info('culk: args:{}'.format(args))
+	if args is None:
+		args= []
+		
+	if len(args) > 0:
+		args=' '.join(args)
+		args = args.split('=')
+		try:
+			args=' '.join(args[0])
+			args=args.split()
+			if '-' in args:
+				b=args.index('-')
+				update.message.reply_text(float(''.join(args[:b]))-float(''.join(args[b+1:])))
+			if '+' in args:
+				b= args.index('+')
+				update.message.reply_text(float(''.join(args[:b]))+float(''.join(args[b+1:])))
+			if '/' in args:
+				b= args.index('/')
+				update.message.reply_text(float(''.join(args[:b]))/float(''.join(args[b+1:])))
+			if '*' in args:
+				b=args.index('*')
+				update.message.reply_text(float(''.join(args[:b]))*float(''.join(args[b+1:])))	
+		except ZeroDivisionError:
+			update.message.reply_text('Division by zero is impossible!')
 
 def chat(bot,update):
 	text=update.message.text
@@ -45,6 +84,8 @@ def main():
 
     updtr.dispatcher.add_handler(CommandHandler('start',start_bot))
     updtr.dispatcher.add_handler(CommandHandler('planet',planet_bot, pass_args=True))
+    updtr.dispatcher.add_handler(CommandHandler('wordcount',wordcount_bot, pass_args=True))
+    updtr.dispatcher.add_handler(CommandHandler('culk', culculator_bot, pass_args=True))
     updtr.dispatcher.add_handler(MessageHandler(Filters.text, chat))
 
     updtr.start_polling()
